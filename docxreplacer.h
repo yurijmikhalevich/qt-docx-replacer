@@ -6,7 +6,8 @@
 
 namespace DocxReplacer
 {
-bool replaceInFile(QString fileName, QMap<QString, QString> *replaceRules, QString newFileName = QString());
+bool replaceInFile(QString fileName, QMap<QString, QString> *replaceRules,
+                   QString newFileName = QString());
 bool removeFolder(QString path);
 }
 
