@@ -13,14 +13,14 @@ bool DocxReplacer::replaceInFile(
   QString tempDirPath = QDir::tempPath() + "/docx-replacer";
   if (!removeFolder(tempDirPath) ||
       JlCompress::extractDir(fileName, tempDirPath).isEmpty()) {
-    qDebug() << "Cannot remove folder or extract docx";
+    qCritical() << "Cannot remove folder or extract docx";
     return false;
   }
   QFile file(tempDirPath + "/word/document.xml");
   QTextStream stream;
   stream.setDevice(&file);
   if (!file.open(QIODevice::ReadOnly)) {
-    qDebug() << "Cannon open file for reading";
+    qCritical() << "Cannon open file for reading";
     return false;
   }
   QString content = stream.readAll();
@@ -32,7 +32,7 @@ bool DocxReplacer::replaceInFile(
     ++replaceRulesIterator;
   }
   if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-    qDebug() << "Cannot open file for writing";
+    qCritical() << "Cannot open file for writing";
     return false;
   }
   stream << content;
@@ -53,7 +53,7 @@ bool DocxReplacer::removeFolder(QString path) {
   for (int i = 0; i < files.count(); ++i) {
     removablePath = path + "/" + files.at(i);
     if (!QFile::remove(removablePath)) {
-      qDebug() << "Cannot remove file" << removablePath;
+      qCritical() << "Cannot remove file" << removablePath;
       return false;
     }
   }
@@ -62,7 +62,7 @@ bool DocxReplacer::removeFolder(QString path) {
   for (int i = 0; i < files.count(); ++i) {
     removablePath = path + "/" + files.at(i);
     if (!removeFolder(removablePath)) {
-      qDebug() << "Cannot remove directory" << removablePath;
+      qCritical() << "Cannot remove directory" << removablePath;
       return false;
     }
   }
